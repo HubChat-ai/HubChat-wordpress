@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: HubChat Live Chat 1.1.0\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: hubchat-live-chat\n"
+
+msgid "HubChat"
+msgstr "هاب‌چت"
+
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "The widget key is not valid. It starts with hc_."
+msgstr "کلید ویجت معتبر نیست. کلید با hc_ شروع می‌شود."
+
+msgid "The HubChat widget is not active yet."
+msgstr "ویجت هاب‌چت هنوز فعال نشده است."
+
+msgid "Enter your widget key"
+msgstr "کلید ویجت را وارد کنید"
+
+msgid "HubChat Live Chat"
+msgstr "هاب‌چت – چت آنلاین"
+
+msgid "Copy the widget key from Channels > Website chat widget in your HubChat panel (the data-key value of the install code). You can also paste the whole install code here."
+msgstr "کلید ویجت را از «کانال‌ها > ویجت چت سایت» در پنل هاب‌چت کپی کنید (مقدار data-key در کد نصب). می‌توانید کل کد نصب را هم اینجا بچسبانید."
+
+msgid "Color, text, icon, position and the other widget features are set in the HubChat panel and applied here automatically."
+msgstr "رنگ، متن، آیکن، جایگاه و بقیه‌ی امکانات ویجت از پنل هاب‌چت تنظیم می‌شود و اینجا خودکار اعمال می‌شود."
+
+msgid "Widget key"
+msgstr "کلید ویجت"
+
+msgid "Display"
+msgstr "نمایش ویجت"
+
+msgid "Show the widget on the site"
+msgstr "روی سایت نمایش داده شود"
+
+msgid "Hide on mobile devices"
+msgstr "در موبایل نمایش داده نشود"
+
+msgid "Only for logged-in users"
+msgstr "فقط برای کاربران واردشده"
+
+msgid "Pages without the widget"
+msgstr "صفحه‌های بدون ویجت"
+
+msgid "Post or page IDs, separated by commas."
+msgstr "شناسه‌ی نوشته‌ها یا برگه‌ها، جدا با کاما."
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Open the chat from a page"
+msgstr "باز کردن گفتگو از داخل صفحه"
+
+#, php-format
+msgid "The %1$s shortcode adds a button that opens the chat window. Any link to %2$s does the same."
+msgstr "شورت‌کد %1$s دکمه‌ای می‌سازد که پنجره‌ی گفتگو را باز می‌کند. هر لینکی به %2$s هم همین کار را می‌کند."
+
+msgid "WooCommerce"
+msgstr "ووکامرس"
+
+msgid "To connect orders and products, go to Settings > Store in your HubChat panel and use one-click connect."
+msgstr "برای وصل کردن سفارش‌ها و محصولات، در پنل هاب‌چت به «تنظیمات > فروشگاه» بروید و «اتصال با یک کلیک» را بزنید."
+
+msgid "Chat with support"
+msgstr "گفتگو با پشتیبانی"
+
+msgid "Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel."
+msgstr "نصب ویجت چت آنلاین هاب‌چت روی سایت وردپرس بدون ویرایش کد قالب. ظاهر و امکانات ویجت از پنل هاب‌چت تنظیم می‌شود."
+

@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: HubChat Live Chat 1.1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: hubchat-live-chat\n"
+
+msgid "HubChat"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "The widget key is not valid. It starts with hc_."
+msgstr ""
+
+msgid "The HubChat widget is not active yet."
+msgstr ""
+
+msgid "Enter your widget key"
+msgstr ""
+
+msgid "HubChat Live Chat"
+msgstr ""
+
+msgid "Copy the widget key from Channels > Website chat widget in your HubChat panel (the data-key value of the install code). You can also paste the whole install code here."
+msgstr ""
+
+msgid "Color, text, icon, position and the other widget features are set in the HubChat panel and applied here automatically."
+msgstr ""
+
+msgid "Widget key"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Show the widget on the site"
+msgstr ""
+
+msgid "Hide on mobile devices"
+msgstr ""
+
+msgid "Only for logged-in users"
+msgstr ""
+
+msgid "Pages without the widget"
+msgstr ""
+
+msgid "Post or page IDs, separated by commas."
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Open the chat from a page"
+msgstr ""
+
+msgid "The %1$s shortcode adds a button that opens the chat window. Any link to %2$s does the same."
+msgstr ""
+
+msgid "WooCommerce"
+msgstr ""
+
+msgid "To connect orders and products, go to Settings > Store in your HubChat panel and use one-click connect."
+msgstr ""
+
+msgid "Chat with support"
+msgstr ""
+
+msgid "Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel."
+msgstr ""
+

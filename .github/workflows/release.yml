@@ -8,13 +8,28 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  github-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: zip -r hubchat.zip hubchat
+      - run: zip -r hubchat-live-chat.zip hubchat-live-chat
       - uses: softprops/action-gh-release@v2
         with:
-          name: HubChat WordPress ${{ github.ref_name }}
-          body: افزونه‌ی وردپرس هاب‌چت. فایل hubchat.zip را از «افزونه‌ها > افزودن > بارگذاری افزونه» نصب کنید.
-          files: hubchat.zip
+          name: HubChat Live Chat ${{ github.ref_name }}
+          body: Install from Plugins > Add New > Upload Plugin, or search "HubChat Live Chat" in the WordPress plugin directory.
+          files: hubchat-live-chat.zip
+
+  wordpress-org:
+    # Runs only after the plugin is approved on wordpress.org and the SVN secrets are set.
+    if: ${{ vars.WPORG_DEPLOY == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: hubchat-live-chat
+          BUILD_DIR: hubchat-live-chat
+          ASSETS_DIR: .wordpress-org
+          VERSION: ${{ github.ref_name }}
