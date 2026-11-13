@@ -3,7 +3,7 @@
  * Plugin Name:       HubChat Live Chat
  * Plugin URI:        https://hubchat.ir
  * Description:       Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Requires at least: 5.7
  * Requires PHP:      7.4
  * Author:            HubChat
@@ -17,7 +17,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('HUBCHAT_LIVE_CHAT_VERSION', '1.1.1');
+define('HUBCHAT_LIVE_CHAT_VERSION', '1.1.2');
 define('HUBCHAT_LIVE_CHAT_SCRIPT_URL', 'https://widget.hubchat.ir/widget.js');
 define('HUBCHAT_LIVE_CHAT_KEY_OPTION', 'hubchat_widget_key');
 define('HUBCHAT_LIVE_CHAT_SETTINGS_OPTION', 'hubchat_settings');
@@ -37,8 +37,19 @@ function hubchat_live_chat_key()
     return (string) get_option(HUBCHAT_LIVE_CHAT_KEY_OPTION, '');
 }
 
+/**
+ * WordPress.org loads translations for the plugin slug automatically. The bundled
+ * files in /languages are only a fallback for installs from the zip file, before
+ * translate.wordpress.org has a language pack for the site's locale.
+ */
 add_action('init', function () {
-    load_plugin_textdomain('hubchat-live-chat', false, dirname(plugin_basename(__FILE__)).'/languages');
+    $locale = determine_locale();
+    $languagePack = WP_LANG_DIR.'/plugins/hubchat-live-chat-'.$locale.'.mo';
+    $file = __DIR__.'/languages/hubchat-live-chat-'.$locale.'.mo';
+
+    if (! is_textdomain_loaded('hubchat-live-chat') && ! is_readable($languagePack) && is_readable($file)) {
+        load_textdomain('hubchat-live-chat', $file);
+    }
 });
 
 add_action('admin_menu', function () {
@@ -204,7 +215,7 @@ add_action('wp_enqueue_scripts', function () {
         return;
     }
 
-    wp_enqueue_script('hubchat-live-chat', HUBCHAT_LIVE_CHAT_SCRIPT_URL, [], null, ['in_footer' => true, 'strategy' => 'async']);
+    wp_enqueue_script('hubchat-live-chat', HUBCHAT_LIVE_CHAT_SCRIPT_URL, [], HUBCHAT_LIVE_CHAT_VERSION, ['in_footer' => true, 'strategy' => 'async']);
     wp_add_inline_script(
         'hubchat-live-chat',
         "document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('a[href=\"#hubchat\"],.hubchat-open');if(t&&window.HubChat){e.preventDefault();window.HubChat('open');}});"
