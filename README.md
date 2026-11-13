@@ -1,23 +1,41 @@
-# HubChat Live Chat – WordPress Plugin
+# HubChat Live Chat – افزونه‌ی وردپرس
 
-افزونه‌ی وردپرس برای نصب ویجت چت آنلاین هاب‌چت بدون ویرایش کد قالب. کد افزونه در پوشه‌ی `hubchat-live-chat/` است و نام این پوشه همان slug افزونه در wordpress.org است.
+ویجت چت آنلاین هاب‌چت را بدون ویرایش کد قالب روی سایت وردپرس نصب کنید. پیام بازدیدکنندگان در صندوق ورودی هاب‌چت، کنار تلگرام، بله، روبیکا، اینستاگرام و بقیه‌ی کانال‌ها می‌رسد.
 
-## نصب برای کاربر
-- از مخزن افزونه‌های وردپرس: «افزونه‌ها > افزودن» و جستجوی **HubChat Live Chat**.
-- یا فایل `hubchat-live-chat.zip` از [Releases](https://github.com/HubChat-ai/HubChat-wordpress/releases) و «بارگذاری افزونه».
+## امکانات
+- ظاهر و امکانات ویجت (رنگ، آیکن، متن، پایگاه دانش، ارسال فایل، ساعات کاری و نظرسنجی) از پنل هاب‌چت تنظیم و خودکار اعمال می‌شود
+- نمایش یا عدم نمایش در موبایل
+- نمایش فقط برای کاربران واردشده
+- غیرفعال کردن ویجت در صفحه‌ها یا نوشته‌های مشخص
+- شورت‌کد `[hubchat_button]` و لینک‌های `#hubchat` برای باز کردن گفتگو
+- بارگذاری غیرهمزمان؛ سرعت سایت کم نمی‌شود
+- رابط فارسی و انگلیسی
 
-## انتشار نسخه‌ی جدید
-1. نسخه را در `hubchat-live-chat/hubchat-live-chat.php` (هدر و `HUBCHAT_LIVE_CHAT_VERSION`) و `Stable tag` در `readme.txt` بالا ببرید و Changelog را بنویسید.
-2. تگ بزنید (مثلاً `1.1.1`) و push کنید.
-3. GitHub Actions فایل zip را در Releases می‌گذارد و، اگر انتشار در wordpress.org فعال باشد، نسخه را به SVN وردپرس هم می‌فرستد.
+## نصب
+1. **از مخزن وردپرس:** در پیشخوان به «افزونه‌ها > افزودن» بروید، عبارت **HubChat Live Chat** را جستجو و نصب کنید.
+   **یا دستی:** فایل `hubchat-live-chat.zip` را از [Releases](https://github.com/HubChat-ai/HubChat-wordpress/releases) بگیرید و از «افزونه‌ها > افزودن > بارگذاری افزونه» نصب کنید.
+2. افزونه را فعال کنید.
+3. در پنل هاب‌چت به «تنظیمات > کانال‌ها > ویجت چت سایت» بروید و کلید ویجت (`hc_...`) را کپی کنید.
+4. در وردپرس به «تنظیمات > هاب‌چت» بروید، کلید را بچسبانید و ذخیره کنید.
 
-## ثبت اولیه در wordpress.org (یک بار)
-1. با حساب wordpress.org (مثلاً `hubchat`) وارد شوید و در https://wordpress.org/plugins/developers/add/ فایل `hubchat-live-chat.zip` را بفرستید.
-2. نام کاربری wordpress.org را در `Contributors` فایل `readme.txt` بگذارید.
-3. بعد از تأیید، در GitHub مخزن: **Settings > Secrets and variables > Actions**
-   - Secrets: `SVN_USERNAME` و `SVN_PASSWORD` (رمز SVN از پروفایل wordpress.org)
-   - Variables: `WPORG_DEPLOY` = `true`
-4. آیکن‌ها در `.wordpress-org/` هستند؛ بنر (`banner-772x250.png` و `banner-1544x500.png`) و اسکرین‌شات‌ها (`screenshot-1.png`، `screenshot-2.png`) را هم آنجا اضافه کنید.
+## باز کردن گفتگو از داخل صفحه
+```
+[hubchat_button text="گفتگو با پشتیبانی"]
+```
+هر لینکی با آدرس `#hubchat` هم پنجره‌ی گفتگو را باز می‌کند.
 
-## ترجمه
-رشته‌های افزونه انگلیسی‌اند و ترجمه‌ی فارسی در `hubchat-live-chat/languages/` همراه افزونه است. بعد از انتشار در wordpress.org، ترجمه از translate.wordpress.org هم قابل مدیریت است.
+## برای توسعه‌دهندگان
+با فیلتر `hubchat_live_chat_should_render` می‌توانید نمایش ویجت را در شرایط دلخواه کنترل کنید:
+```php
+add_filter('hubchat_live_chat_should_render', function ($show) {
+    return ! is_page('checkout');
+});
+```
+
+## حریم خصوصی
+افزونه فقط وقتی کلید ویجت وارد و ویجت فعال باشد، اسکریپت `https://widget.hubchat.ir/widget.js` را بارگذاری می‌کند. پیام‌ها و فایل‌هایی که بازدیدکننده می‌فرستد برای پاسخ‌گویی به هاب‌چت ارسال می‌شود. [شرایط استفاده](https://hubchat.ir/terms) · [حریم خصوصی](https://hubchat.ir/privacy)
+
+## پشتیبانی
+- مستندات: https://hubchat.ir/docs/connect-channel/website_chat
+- گزارش مشکل: بخش Issues همین مخزن
+- وب‌سایت: https://hubchat.ir
