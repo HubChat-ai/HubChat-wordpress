@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       HubChat Live Chat
- * Plugin URI:        https://hubchat.ir
+ * Plugin URI:        https://hubchat.ir/docs/connect-channel/website_chat
  * Description:       Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Requires at least: 5.7
  * Requires PHP:      7.4
  * Author:            HubChat
@@ -17,7 +17,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('HUBCHAT_LIVE_CHAT_VERSION', '1.1.2');
+define('HUBCHAT_LIVE_CHAT_VERSION', '1.1.3');
 define('HUBCHAT_LIVE_CHAT_SCRIPT_URL', 'https://widget.hubchat.ir/widget.js');
 define('HUBCHAT_LIVE_CHAT_KEY_OPTION', 'hubchat_widget_key');
 define('HUBCHAT_LIVE_CHAT_SETTINGS_OPTION', 'hubchat_settings');
