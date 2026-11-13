@@ -4,7 +4,7 @@ Tags: live chat, chat, customer support, chat widget, woocommerce
 Requires at least: 5.7
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,9 @@ Yes. Use the `[hubchat_button text="Talk to us"]` shortcode, or link to `#hubcha
 2. Plugin settings page.
 
 == Changelog ==
+
+= 1.1.1 =
+* Documentation updates.
 
 = 1.1.0 =
 * Display settings: mobile, logged-in users only, excluded pages.
