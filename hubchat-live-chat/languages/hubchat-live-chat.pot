@@ -73,3 +73,15 @@ msgstr ""
 msgid "Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel."
 msgstr ""
 
+
+msgid "Identity secret"
+msgstr ""
+
+msgid "Saved. Leave empty to keep it."
+msgstr ""
+
+msgid "Optional. With it, logged-in users (and WooCommerce customers) are sent to HubChat with their name, email, phone, address and order stats, signed securely. Get it from the widget designer in your HubChat panel. Enter - to remove it."
+msgstr ""
+
+msgid "The identity secret is not valid. It starts with hcs_."
+msgstr ""

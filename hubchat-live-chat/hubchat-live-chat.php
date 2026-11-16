@@ -3,7 +3,7 @@
  * Plugin Name:       HubChat Live Chat
  * Plugin URI:        https://hubchat.ir/docs/connect-channel/website_chat
  * Description:       Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel.
- * Version:           1.1.3
+ * Version:           1.2.0
  * Requires at least: 5.7
  * Requires PHP:      7.4
  * Author:            HubChat
@@ -17,10 +17,11 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('HUBCHAT_LIVE_CHAT_VERSION', '1.1.3');
+define('HUBCHAT_LIVE_CHAT_VERSION', '1.2.0');
 define('HUBCHAT_LIVE_CHAT_SCRIPT_URL', 'https://widget.hubchat.ir/widget.js');
 define('HUBCHAT_LIVE_CHAT_KEY_OPTION', 'hubchat_widget_key');
 define('HUBCHAT_LIVE_CHAT_SETTINGS_OPTION', 'hubchat_settings');
+define('HUBCHAT_LIVE_CHAT_SECRET_OPTION', 'hubchat_identity_secret');
 
 /**
  * @return array{enabled: bool, hide_on_mobile: bool, logged_in_only: bool, excluded_ids: string}
@@ -95,6 +96,34 @@ add_action('admin_init', function () {
         },
     ]);
 
+    register_setting('hubchat_live_chat', HUBCHAT_LIVE_CHAT_SECRET_OPTION, [
+        'type' => 'string',
+        'sanitize_callback' => function ($value) {
+            $value = trim((string) $value);
+
+            // An empty field keeps the saved secret (it is never printed back into the form).
+            if ($value === '') {
+                return (string) get_option(HUBCHAT_LIVE_CHAT_SECRET_OPTION, '');
+            }
+
+            if ($value === '-') {
+                return '';
+            }
+
+            if (! preg_match('/^hcs_[A-Za-z0-9]{40}$/', $value)) {
+                add_settings_error(
+                    HUBCHAT_LIVE_CHAT_KEY_OPTION,
+                    'hubchat_secret',
+                    __('The identity secret is not valid. It starts with hcs_.', 'hubchat-live-chat')
+                );
+
+                return (string) get_option(HUBCHAT_LIVE_CHAT_SECRET_OPTION, '');
+            }
+
+            return $value;
+        },
+    ]);
+
     register_setting('hubchat_live_chat', HUBCHAT_LIVE_CHAT_SETTINGS_OPTION, [
         'type' => 'array',
         'sanitize_callback' => function ($value) {
@@ -145,6 +174,13 @@ function hubchat_live_chat_render_settings()
                 <tr>
                     <th scope="row"><label for="hubchat_key"><?php esc_html_e('Widget key', 'hubchat-live-chat'); ?></label></th>
                     <td><input id="hubchat_key" name="<?php echo esc_attr(HUBCHAT_LIVE_CHAT_KEY_OPTION); ?>" class="regular-text" dir="ltr" placeholder="hc_..." value="<?php echo esc_attr(hubchat_live_chat_key()); ?>"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="hubchat_secret"><?php esc_html_e('Identity secret', 'hubchat-live-chat'); ?></label></th>
+                    <td>
+                        <input id="hubchat_secret" type="password" autocomplete="off" name="<?php echo esc_attr(HUBCHAT_LIVE_CHAT_SECRET_OPTION); ?>" class="regular-text" dir="ltr" placeholder="<?php echo get_option(HUBCHAT_LIVE_CHAT_SECRET_OPTION) ? esc_attr__('Saved. Leave empty to keep it.', 'hubchat-live-chat') : 'hcs_...'; ?>">
+                        <p class="description"><?php esc_html_e('Optional. With it, logged-in users (and WooCommerce customers) are sent to HubChat with their name, email, phone, address and order stats, signed securely. Get it from the widget designer in your HubChat panel. Enter - to remove it.', 'hubchat-live-chat'); ?></p>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row"><?php esc_html_e('Display', 'hubchat-live-chat'); ?></th>
@@ -210,12 +246,81 @@ function hubchat_live_chat_should_render()
     return (bool) apply_filters('hubchat_live_chat_should_render', true);
 }
 
+/**
+ * The logged-in user as HubChat expects it, signed with the identity secret.
+ * Developers can add or change fields with the hubchat_live_chat_user filter.
+ *
+ * @return array<string, mixed>|null
+ */
+function hubchat_live_chat_identity()
+{
+    $secret = (string) get_option(HUBCHAT_LIVE_CHAT_SECRET_OPTION, '');
+
+    if ($secret === '' || ! is_user_logged_in()) {
+        return null;
+    }
+
+    $user = wp_get_current_user();
+    $userId = (string) $user->ID;
+    $avatar = get_avatar_url($user->ID, ['size' => 128]);
+    $identity = [
+        'user_id' => $userId,
+        'name' => $user->display_name,
+        'first_name' => $user->first_name,
+        'last_name' => $user->last_name,
+        'email' => $user->user_email,
+        'avatar_url' => $avatar && strpos($avatar, 'https://') === 0 ? $avatar : null,
+        'custom' => [
+            'wp_role' => implode(', ', (array) $user->roles),
+            'registered_at' => substr((string) $user->user_registered, 0, 10),
+        ],
+    ];
+
+    if (class_exists('WooCommerce') && class_exists('WC_Customer')) {
+        $customer = new WC_Customer($user->ID);
+        $phone = preg_replace('/[^\d+]/', '', (string) $customer->get_billing_phone());
+        $isMobile = (bool) preg_match('/^(\+98|0098|98|0)?9\d{9}$/', $phone);
+
+        $identity = array_merge($identity, [
+            'mobile' => $isMobile ? $phone : null,
+            'phone' => $isMobile ? null : ($phone ?: null),
+            'company' => $customer->get_billing_company(),
+            'address' => trim($customer->get_billing_address_1().' '.$customer->get_billing_address_2()),
+            'city' => $customer->get_billing_city(),
+            'postal_code' => $customer->get_billing_postcode(),
+        ]);
+        $identity['custom']['orders_count'] = (int) $customer->get_order_count();
+        $identity['custom']['total_spent'] = (float) $customer->get_total_spent();
+    }
+
+    $identity = (array) apply_filters('hubchat_live_chat_user', array_filter($identity, function ($value) {
+        return $value !== null && $value !== '';
+    }), $user);
+
+    // The signature always covers the final user_id, even if a filter changed it.
+    $identity['signature'] = hash_hmac('sha256', (string) ($identity['user_id'] ?? $userId), $secret);
+
+    return $identity;
+}
+
 add_action('wp_enqueue_scripts', function () {
     if (! hubchat_live_chat_should_render()) {
         return;
     }
 
+    // HubChat() calls are queued until widget.js loads. Guests get logout, which only
+    // clears the chat if a user was identified in this browser before.
+    $identity = hubchat_live_chat_identity();
+    $queue = 'window.HubChat=window.HubChat||function(){(window.HubChat.q=window.HubChat.q||[]).push(arguments)};';
+
+    if ($identity) {
+        $queue .= 'window.HubChat("identify",'.wp_json_encode($identity).');';
+    } elseif (get_option(HUBCHAT_LIVE_CHAT_SECRET_OPTION)) {
+        $queue .= 'window.HubChat("logout");';
+    }
+
     wp_enqueue_script('hubchat-live-chat', HUBCHAT_LIVE_CHAT_SCRIPT_URL, [], HUBCHAT_LIVE_CHAT_VERSION, ['in_footer' => true, 'strategy' => 'async']);
+    wp_add_inline_script('hubchat-live-chat', $queue, 'before');
     wp_add_inline_script(
         'hubchat-live-chat',
         "document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('a[href=\"#hubchat\"],.hubchat-open');if(t&&window.HubChat){e.preventDefault();window.HubChat('open');}});"

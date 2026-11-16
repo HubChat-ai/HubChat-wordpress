@@ -4,7 +4,7 @@ Tags: live chat, chat, customer support, chat widget, woocommerce
 Requires at least: 5.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,10 @@ Yes. Use the `[hubchat_button text="Talk to us"]` shortcode, or link to `#hubcha
 2. Plugin settings page.
 
 == Changelog ==
+
+= 1.2.0 =
+* Logged-in users and WooCommerce customers are identified to HubChat (name, email, phone, address, order count, total spent), signed with the identity secret. Developers can extend the data with the hubchat_live_chat_user filter.
+* Signing out clears the chat of that user from the browser.
 
 = 1.1.3 =
 * Plugin URI points to the plugin guide.

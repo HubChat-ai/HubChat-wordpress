@@ -5,3 +5,4 @@ if (! defined('WP_UNINSTALL_PLUGIN')) {
 
 delete_option('hubchat_widget_key');
 delete_option('hubchat_settings');
+delete_option('hubchat_identity_secret');

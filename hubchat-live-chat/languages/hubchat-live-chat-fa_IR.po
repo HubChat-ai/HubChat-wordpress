@@ -75,3 +75,15 @@ msgstr "گفتگو با پشتیبانی"
 msgid "Adds the HubChat live chat widget to your WordPress site without editing theme code. The widget's look and features are managed in your HubChat panel."
 msgstr "نصب ویجت چت آنلاین هاب‌چت روی سایت وردپرس بدون ویرایش کد قالب. ظاهر و امکانات ویجت از پنل هاب‌چت تنظیم می‌شود."
 
+
+msgid "Identity secret"
+msgstr "کلید مخفی شناسایی کاربران"
+
+msgid "Saved. Leave empty to keep it."
+msgstr "ذخیره شده است. برای نگه داشتن، خالی بگذارید."
+
+msgid "Optional. With it, logged-in users (and WooCommerce customers) are sent to HubChat with their name, email, phone, address and order stats, signed securely. Get it from the widget designer in your HubChat panel. Enter - to remove it."
+msgstr "اختیاری. با این کلید، کاربران لاگین‌کرده (و مشتریان ووکامرس) با نام، ایمیل، تلفن، آدرس و آمار سفارش به‌صورت امن و امضاشده به هاب‌چت معرفی می‌شوند. کلید را از صفحه‌ی طراحی ویجت در پنل هاب‌چت بگیرید. برای حذف، - وارد کنید."
+
+msgid "The identity secret is not valid. It starts with hcs_."
+msgstr "کلید مخفی معتبر نیست. این کلید با hcs_ شروع می‌شود."
